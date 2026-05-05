@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Movie Collection 🎀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0b1120; color: white; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; }
+        .sidebar { width: 240px; background: rgba(17, 24, 39, 0.7); height: 100vh; padding: 30px; position: fixed; border-right: 1px solid rgba(255,255,255,0.1); }
+        .main-content { margin-left: 300px; padding: 50px; flex: 1; }
+        .movie-grid { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+        .movie-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; width: 150px; text-align: center; border: 1px solid rgba(244, 114, 182, 0.2); }
+        .movie-card img { width: 100%; height: 220px; border-radius: 12px; }
+        h1 { background: linear-gradient(to right, #f472b6, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar a { text-decoration: none; color: #94a3b8; }
+        .sidebar p:hover { color: #f472b6; }
+        .empty-msg { color: #4b5563; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/"><h2>✨ OurReview</h2></a>
+        <a href="/"><p>🏠 Feed</p></a>
+        <a href="/my-movies"><p style="color: #f472b6;">🎀 My Movies</p></a>
+        <a href="/analytics"><p>📈 Analytics</p></a>
+    </div>
+    <div class="main-content">
+        <h1>My Favorites 🎀</h1>
+        <p>Your personal aesthetic movie collection.</p>
+        <div class="movie-grid">
+            {% for film in films %}
+            <div class="movie-card">
+                <img src="{{ url_for('static', filename='img/' + film.img) }}">
+                <p style="font-size: 12px; margin-top: 10px;">{{ film.judul }}</p>
+            </div>
+            {% else %}
+            <p class="empty-msg">No movies added yet, bestie. Go explore!</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review {{ film.judul }} ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            background: radial-gradient(circle at top right, #2d1b4e, #0b1120 40%),
+                        radial-gradient(circle at bottom left, #4a1d3d, #0b1120 40%);
+            background-attachment: fixed;
+            color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0; display: flex; min-height: 100vh;
+        }
+
+        .sidebar { 
+            width: 240px; background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(10px);
+            height: 100vh; padding: 30px; border-right: 1px solid rgba(255, 255, 255, 0.1); position: fixed;
+        }
+        
+        .sidebar h2 { color: #f472b6; font-size: 24px; margin-bottom: 40px; font-weight: 700; }
+        .sidebar a { text-decoration: none; color: inherit; }
+        .sidebar p { color: #94a3b8; padding: 12px 15px; transition: 0.3s; border-radius: 12px; margin-bottom: 5px; }
+        .sidebar p:hover { background: rgba(244, 114, 182, 0.1); color: #f472b6; }
+
+        .main-content { flex: 1; display: flex; justify-content: center; align-items: center; margin-left: 300px; padding: 50px; }
+
+        .review-card { 
+            background: rgba(31, 41, 55, 0.6); backdrop-filter: blur(10px);
+            padding: 40px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px; width: 100%; text-align: center;
+        }
+
+        .review-card img { 
+            width: 200px; height: 300px; object-fit: cover; border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; border: 2px solid #f472b6; 
+        }
+
+        h1 { background: linear-gradient(to right, #f472b6, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; }
+
+        textarea { 
+            width: 100%; background: rgba(15, 23, 42, 0.6); color: white; 
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 15px; 
+            resize: none; box-sizing: border-box; margin-top: 10px;
+        }
+
+        button { 
+            background: linear-gradient(135deg, #f472b6, #fb923c); color: white; border: none; 
+            padding: 14px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; 
+            margin-top: 20px; width: 100%; text-transform: uppercase;
+        }
+
+        /* TOMBOL FAVORITE STYLE */
+        .btn-fav {
+            display: inline-block; margin-top: 15px; color: #f472b6; 
+            text-decoration: none; font-size: 14px; font-weight: 600;
+            padding: 8px 20px; border-radius: 10px; border: 1px dashed #f472b6;
+            transition: 0.3s;
+        }
+        .btn-fav:hover { background: rgba(244, 114, 182, 0.1); transform: scale(1.05); }
+
+        .result-box { margin-top: 25px; padding: 15px; border-radius: 15px; font-weight: 700; }
+        .pos { background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid #34d399; }
+        .neg { background: rgba(248, 113, 113, 0.1); color: #f87171; border: 1px solid #f87171; }
+        
+        .back-link { display: inline-block; margin-top: 20px; color: #94a3b8; text-decoration: none; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a href="/"><h2>✨ OurReview</h2></a>
+        <a href="/"><p>🏠 Feed</p></a>
+        <a href="/my-movies"><p>🎀 My Movies</p></a>
+        <a href="/analytics"><p>📈 Analytics</p></a>
+    </div>
+
+    <div class="main-content">
+        <div class="review-card">
+            <img src="{{ url_for('static', filename='img/' + film.img) }}" alt="poster">
+            <h1>{{ film.judul }}</h1>
+            
+            <form action="/predict/{{ film.id }}" method="POST">
+                <textarea name="review" rows="4" placeholder="How was the movie, bestie?" required>{{ original_text }}</textarea>
+                <button type="submit">Check Vibe ✨</button>
+            </form>
+
+            <!-- DISINI TOMBOLNYA DI MASUKIN -->
+            <a href="/add_favorite/{{ film.id }}" class="btn-fav">
+                + Add to My Movies 🎀
+            </a>
+
+            {% if prediction %}
+            <div class="result-box {{ 'pos' if prediction == 'POSITIF' else 'neg' }}">
+                Vibe Check: {{ 'Positive! 💅' if prediction == 'POSITIF' else 'Negative 💀' }}
+            </div>
+            {% endif %}
+
+            <br>
+            <a href="/" class="back-link">← Back to Feed</a>
+        </div>
+    </div>
+
+</body>
+</html>

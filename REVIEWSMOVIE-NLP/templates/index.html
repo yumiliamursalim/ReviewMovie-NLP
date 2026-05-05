@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurReview ✨ Aesthetic Dashboard</title>
+    <!-- Font Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* BACKGROUND GRADIENT GEN-Z VIBES */
+        body { 
+            background: radial-gradient(circle at top right, #2d1b4e, #0b1120 40%),
+                        radial-gradient(circle at bottom left, #4a1d3d, #0b1120 40%);
+            background-attachment: fixed;
+            color: #f8fafc; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0; 
+            display: flex; 
+            min-height: 100vh;
+        }
+        
+        /* SIDEBAR GLASSMORPHISM */
+        .sidebar { 
+            width: 240px; 
+            background: rgba(17, 24, 39, 0.7); 
+            backdrop-filter: blur(10px);
+            height: 100vh; 
+            padding: 30px; 
+            border-right: 1px solid rgba(255, 255, 255, 0.1); 
+            position: fixed;
+        }
+        
+        .sidebar h2 { 
+            color: #f472b6; 
+            font-size: 24px; 
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .sidebar p { 
+            color: #94a3b8; 
+            cursor: pointer; 
+            padding: 12px 15px; 
+            transition: 0.3s;
+            border-radius: 12px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar p:hover { 
+            background: rgba(244, 114, 182, 0.1);
+            color: #f472b6; 
+        }
+
+        /* MAIN CONTENT */
+        .main-content { 
+            flex: 1; 
+            padding: 50px; 
+            margin-left: 300px; 
+        }
+
+        h1 {
+            font-size: 32px;
+            background: linear-gradient(to right, #f472b6, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* MOVIE GRID */
+        .movie-grid { 
+            display: flex; 
+            gap: 25px; 
+            margin: 30px 0; 
+            flex-wrap: wrap; 
+        }
+
+        /* CARD STYLE & LINK REMOVAL */
+        .movie-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .movie-card { 
+            background: rgba(31, 41, 55, 0.4); 
+            backdrop-filter: blur(5px);
+            padding: 15px; 
+            border-radius: 20px; 
+            width: 160px; 
+            height: 310px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            border-color: #f472b6;
+            box-shadow: 0 10px 30px rgba(244, 114, 182, 0.2);
+        }
+
+        .movie-card img { 
+            width: 100%; 
+            height: 250px; 
+            object-fit: cover; 
+            border-radius: 15px;
+            border: 2px solid rgba(244, 114, 182, 0.3); 
+        }
+
+        .movie-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 12px;
+            color: #cbd5e1;
+        }
+
+        .click-hint {
+            font-size: 11px;
+            color: #f472b6;
+            margin-top: 5px;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a href="/"><h2>✨ OurReview</h2></a>
+        <a href="/"><p>🏠 Feed</p></a>
+        <a href="/my-movies"><p>🎀 My Movies</p></a>
+        <a href="/analytics"><p>📈 Analytics</p></a>
+        <p>💌 Requests</p>
+    </div>
+
+    <div class="main-content">
+        <h1>Vibe Check Your Movie ✨</h1>
+        <p style="color: #94a3b8; font-weight: 300;">Click on a poster to analyze its vibe, bestie!</p>
+
+        <div class="movie-grid">
+            {% for film in films %}
+            <a href="{{ url_for('movie_detail', film_id=film.id) }}" class="movie-link">
+                <div class="movie-card">
+                    <img src="{{ url_for('static', filename='img/' + film.img) }}" alt="poster">
+                    <div class="movie-title">{{ film.judul }}</div>
+                    <div class="click-hint">Click to Review ✍️</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 50px; color: #4b5563; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+            <p>© 2026 CineMood AI. Refresh to see more movies.</p>
+        </div>
+    </div>
+
+</body>
+</html>
